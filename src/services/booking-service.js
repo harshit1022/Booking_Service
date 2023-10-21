@@ -56,7 +56,28 @@ class BookingService {
   async cancelBooking (bookingId) {
     try {
       const final = await this.bookingRepository.update(bookingId, {status: "Cancelled"});
+
+      const booking = await this.getBooking(bookingId);      
+      const flightId = booking.flightId; // got the flightId
+
+      const getFlightRequestURL = `${GET_FLIGHT_PATH}/api/v1/flights/${flightId}`;
+      const response = await axios.get(getFlightRequestURL);
+      const flightData = response.data.data; // got the flightData
+      
+      const updateFlightRequestURL = `${GET_FLIGHT_PATH}/api/v1/flights/${flightId}`;
+      await axios.patch(updateFlightRequestURL, {totalSeats: flightData.totalSeats + booking.noOfSeats});
+
       return final;
+    } 
+    catch (error) {
+      throw new ServiceError();
+    }
+  }
+
+  async getBooking (bookingId) {
+    try {
+      const booking = await this.bookingRepository.get(bookingId);
+      return booking;
     } 
     catch (error) {
       throw new ServiceError();

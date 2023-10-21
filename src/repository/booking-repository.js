@@ -40,6 +40,21 @@ class BookingRepository {
       )     
     }
   }
+
+  async get(bookingId) {
+    try {
+      const booking = await Booking.findByPk(bookingId);
+      return booking;
+    } 
+    catch (error) {
+      throw new AppError(
+        'RepositoryError',
+        'Cannot get the Booking',
+        'There was some issue while getting the booking',
+        StatusCodes.INTERNAL_SERVER_ERROR
+      )     
+    }
+  }
 }
 
 module.exports = BookingRepository;

@@ -63,8 +63,29 @@ const cancel = async (req, res) => {
   }
 }
 
+const get = async (req, res) => {
+  try {
+    const response = await bookingService.getBooking(req.params.id);
+    return res.status(StatusCodes.OK).json({
+      message: 'Successfully fetched the Booking',
+      success: true,
+      err: {},
+      data: response
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      data: {},
+      success: false,
+      message: 'Error in Fetching the Booking',
+      err: error
+    })
+  }
+}
+
 module.exports = {
   create,
   update,
-  cancel
+  cancel,
+  get
 }
