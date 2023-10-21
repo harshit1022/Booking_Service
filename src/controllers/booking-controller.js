@@ -43,7 +43,28 @@ const update = async (req, res) => {
   }
 }
 
+const cancel = async (req, res) => {
+  try {
+    const response = await bookingService.cancelBooking(req.params.id);
+    return res.status(StatusCodes.OK).json({
+      message: 'Successfully Cancelled the Booking',
+      success: true,
+      err: {},
+      data: response
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      data: {},
+      success: false,
+      message: 'Error in Cancelling Booking',
+      err: error
+    })
+  }
+}
+
 module.exports = {
   create,
-  update
+  update,
+  cancel
 }

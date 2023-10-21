@@ -52,6 +52,16 @@ class BookingService {
       throw new ServiceError();
     }
   }
+
+  async cancelBooking (bookingId) {
+    try {
+      const final = await this.bookingRepository.update(bookingId, {status: "Cancelled"});
+      return final;
+    } 
+    catch (error) {
+      throw new ServiceError();
+    }
+  }
 }
 
 module.exports = BookingService;
