@@ -1,12 +1,17 @@
 const express = require('express');
 
 const { BookingController } = require('../../controllers/index');
+// const { createChannel } = require('../../utils/messageQueue');
 
+// const channel = await createChannel();
+const bookingController = new BookingController();
 const router = express.Router();
 
-router.post('/bookings', BookingController.create);
-router.patch('/bookings/:id', BookingController.update);
-router.patch('/bookings/cancel/:id', BookingController.cancel);
-router.get('/bookings/:id', BookingController.get);
+router.post('/bookings', bookingController.create);
+router.patch('/bookings/:id', bookingController.update);
+router.patch('/bookings/cancel/:id', bookingController.cancel);
+router.get('/bookings/:id', bookingController.get);
+
+router.post('/publish', bookingController.sendMsgToQueue);
 
 module.exports = router;
