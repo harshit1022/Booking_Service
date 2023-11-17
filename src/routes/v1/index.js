@@ -11,6 +11,9 @@ router.post('/bookings', bookingController.create);
 router.patch('/bookings/:id', bookingController.update);
 router.patch('/bookings/cancel/:id', bookingController.cancel);
 router.get('/bookings/:id', bookingController.get);
+router.get('/info', (req, res) => {
+  return res.json({msg: 'Information for Booking Service'});
+})
 
 router.post('/publish', bookingController.sendMsgToQueue);
 
